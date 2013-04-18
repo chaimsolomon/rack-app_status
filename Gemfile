@@ -1,3 +1,8 @@
-source "http://rubygems.org"
+source "https://rubygems.org"
 
 gemspec
+
+gem 'rspec'
+gem 'rspec-mocks'
+gem 'pry'
+gem 'pry-nav'
