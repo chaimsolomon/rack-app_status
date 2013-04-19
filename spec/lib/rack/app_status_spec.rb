@@ -2,10 +2,10 @@ require 'spec_helper'
 require 'rack/app_status'
 require 'active_record'
 
-describe Rack::AppStatus do
+describe "Rack::AppStatus simple" do
   before(:each) do
     @mocked_app = double()
-    @ars = Rack::AppStatus.new(@mocked_app)
+    @ars = Rack::AppStatus.new(@mocked_app, {:sensors => [:simple]})
   end
 
   describe "#call" do
@@ -26,6 +26,54 @@ describe Rack::AppStatus do
       env = {'PATH_INFO' => "/app_status"}
       @ars.call(env).should == ["something"]
     end
+  end
+
+  describe "@get_status" do
+    it "returns an OK" do
+      @ars.get_status.should == [200, {'Content-Type' => 'text/plain'}, ["OK\n"]]
+    end
+
+    it "calls the simple sensor" do
+      ass_inst = double("AppStatusSensors")
+      AppStatusSensors.should_receive(:new).and_return(ass_inst)
+      ass_inst.should_receive(:simple).and_return(:ok)
+      @ars.get_status.should == [200, {'Content-Type' => 'text/plain'}, ["OK\n"]]
+    end
+
+    it "returns a 500 on the simple sensor not returning :ok" do
+      ass_inst = double("AppStatusSensors")
+      AppStatusSensors.should_receive(:new).and_return(ass_inst)
+      ass_inst.should_receive(:simple).and_return(:nok)
+      @ars.get_status.should == [500, {'Content-Type' => 'text/plain'}, ["nok"]]
+    end
+  end
+end
+
+describe "Rack::AppStatus ActiveRecord" do
+  before(:each) do
+    @mocked_app = double()
+    @ars = Rack::AppStatus.new(@mocked_app, {:sensors => [:active_record]})
+  end
+
+  it "calls the active_record sensor" do
+    ass_inst = double("AppStatusSensors")
+    AppStatusSensors.should_receive(:new).and_return(ass_inst)
+    ass_inst.should_receive(:active_record).and_return(:ok)
+    @ars.get_status.should == [200, {'Content-Type' => 'text/plain'}, ["OK\n"]]
+  end
+
+  it "returns a 500 on the active_record sensor not returning :ok" do
+    ass_inst = double("AppStatusSensors")
+    AppStatusSensors.should_receive(:new).and_return(ass_inst)
+    ass_inst.should_receive(:active_record).and_return(:nok)
+    @ars.get_status.should == [500, {'Content-Type' => 'text/plain'}, ["nok"]]
+  end
+
+  it "returns a 500 on the active_record sensor not returning an error array" do
+    ass_inst = double("AppStatusSensors")
+    AppStatusSensors.should_receive(:new).and_return(ass_inst)
+    ass_inst.should_receive(:active_record).and_return([500, {'Content-Type' => 'text/plain'}, ["XXX"]])
+    @ars.get_status.should == [500, {'Content-Type' => 'text/plain'}, ["XXX"]]
   end
 
   describe "@get_status" do
