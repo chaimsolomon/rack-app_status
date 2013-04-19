@@ -11,7 +11,7 @@ end
 
 
 module Rack
-  class ActiveRecordStatus
+  class AppStatus
     # Initialize the gem with a list of sensors - e.g. in your application.rb write something like
     #     config.middleware.use Rack::ActiveRecordStatus, :sensors => [:simple, :active_record]
     # If you add :path then that is used for the path of the app status page:

@@ -1,11 +1,11 @@
 require 'spec_helper'
-require 'rack/active_record_status'
+require 'rack/app_status'
 require 'active_record'
 
-describe Rack::ActiveRecordStatus do
+describe Rack::AppStatus do
   before(:each) do
     @mocked_app = double()
-    @ars = Rack::ActiveRecordStatus.new(@mocked_app)
+    @ars = Rack::AppStatus.new(@mocked_app)
   end
 
   describe "#call" do
