@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.extra_rdoc_files = %w[README.rdoc]
 
   s.add_dependency 'rack'
-  s.add_dependency 'activerecord'
+  #s.add_dependency 'activerecord'
   s.add_dependency 'activesupport'
 
   s.add_development_dependency 'rake'
