@@ -29,7 +29,9 @@ module Rack
       if @sensors.include? :active_record
         require_relative 'app_status_sensors/active_record_app_status'
       end
-
+      if @sensors.include? :cassandra_cequel
+        require_relative 'app_status_sensors/cassandra_sequel_app_status'
+      end
       @path = options[:path] || '/app_status'
       @response = options[:response] || "OK\n"
     end
