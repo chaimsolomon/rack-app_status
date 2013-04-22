@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'shoulda'
   s.add_development_dependency 'rack-test'
   s.add_development_dependency 'activerecord', '~> 3.2.0'
-  s.add_development_dependency  'cequel', '~> 0.5.3'
+  s.add_development_dependency 'cequel', '~> 0.5.3'
 
   s.files = `git ls-files`.split("\n")
   s.test_files = `git ls-files -- {spec,test}/*`.split("\n")
