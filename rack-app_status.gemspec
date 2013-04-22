@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'rack-app_status'
-  s.version = '0.1.0'
+  s.version = '0.1.1'
 
   s.summary = "Rack middleware to check status of an app"
   s.description = "A server health check for active_record."
